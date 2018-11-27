@@ -1,10 +1,11 @@
 package Task1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Message {
+public class Message implements Serializable {
     private String login;
     private String message;
     private String[] users;

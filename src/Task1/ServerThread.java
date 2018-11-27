@@ -3,6 +3,7 @@ package Task1;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,9 +16,11 @@ public class ServerThread extends Thread {
     private Socket socket;
     String login;
     Message message;
+    private InetAddress addr;
 
     public ServerThread(Socket socket) {
         this.socket = socket;
+        addr = socket.getInetAddress();
     }
 
     @Override
@@ -27,7 +30,9 @@ public class ServerThread extends Thread {
             ois = new ObjectInputStream(socket.getInputStream());
             message = (Message) ois.readObject();
             login=message.getLogin();
-
+            System.out.println("Имя нового пользователя: " + login);
+            Message welcome = new Message("Bot", login + " присоединился.");
+            sendToAll(getUserList().getUsersInArrayList(), welcome);
             getUserList().addUser(login, socket, ois, oos);
 
             message.SetUsers(getUserList().getUsersStringArray());
@@ -40,7 +45,9 @@ public class ServerThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+        } finally {
+            disconnect();
         }
     }
 
@@ -51,6 +58,21 @@ public class ServerThread extends Thread {
             }
         }catch (IOException e){
             e.printStackTrace();
+        }
+    }
+
+    public void disconnect() {
+        try {
+            if (oos!=null) oos.close();
+            if (ois!=null) ois.close();
+            System.out.println(login + " вышел из чата.");
+            Message goodbye = new Message("Bot", login + " вышел из чата");
+            sendToAll(getUserList().getUsersInArrayList(), goodbye);
+            getUserList().deleteUser(login);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            this.interrupt();
         }
     }
 

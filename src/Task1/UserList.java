@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserList {
-    private HashMap<String, Client> userList;
+    private HashMap<String, Client> userList = new HashMap<>();
 
     public UserList() {
     }
@@ -41,11 +41,11 @@ public class UserList {
     }
 
     public ArrayList<Client> getUsersInArrayList() {
-        ArrayList<Client> clientList = null;
+        ArrayList<Client> clientList = new ArrayList<>();
 
         for (Map.Entry<String, Client> m : userList.entrySet()) {
             clientList.add(m.getValue());
-            System.out.println(m.getKey());
+//            System.out.println(m.getKey());
         }
 
         return clientList;

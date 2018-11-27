@@ -1,5 +1,6 @@
 package Task1;
 
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,7 +8,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class MainClient {
+
+public class SecondClient {
     public static void main(String[] args) {
         Socket socket = null;
         ObjectInputStream ois;
@@ -30,7 +32,6 @@ public class MainClient {
         }catch (IOException e) {
             System.err.println("Нет соединения с сервером чата.");
             e.printStackTrace();
-
         }
     }
 }

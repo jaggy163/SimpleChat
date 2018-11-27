@@ -9,20 +9,29 @@ import java.net.Socket;
 
 public class MainServer {
     private static UserList userList = new UserList();
+    private static ServerSocket server;
 
     public static void main(String[] args) {
 
         try {
-            ServerSocket server = new ServerSocket(8070);
+            server = new ServerSocket(8071);
             System.out.println("Initialized");
             while(true) {
                 Socket socket = server.accept();
-                System.out.println(socket.getInetAddress().getHostName() + "connected");
+                System.out.println(socket.getInetAddress().getHostName() + " connected");
                 ServerThread thread = new ServerThread(socket);
                 thread.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (server!=null) {
+                    server.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
