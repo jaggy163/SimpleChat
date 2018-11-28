@@ -29,11 +29,13 @@ public class ServerThread extends Thread {
             oos = new ObjectOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
             message = (Message) ois.readObject();
-            login=message.getLogin();
+            login=getUserList().addUser(message.getLogin(), socket, ois, oos);
+//            login=message.getLogin();
+            oos.writeObject(new Message("Bot", login));
             System.out.println("Имя нового пользователя: " + login);
             Message welcome = new Message("Bot", login + " присоединился.");
             sendToAll(getUserList().getUsersInArrayList(), welcome);
-            getUserList().addUser(login, socket, ois, oos);
+//            getUserList().addUser(login, socket, ois, oos);
 
             message.SetUsers(getUserList().getUsersStringArray());
 

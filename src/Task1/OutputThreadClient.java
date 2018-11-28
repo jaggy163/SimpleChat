@@ -16,12 +16,12 @@ public class OutputThreadClient extends Thread {
 
     @Override
     public void run() {
-        try {
-            Message first = new Message(login, "");
-            oos.writeObject(first);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Message first = new Message(login, "");
+//            oos.writeObject(first);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         try {
             while (true) {
                 String mes = sc.nextLine();

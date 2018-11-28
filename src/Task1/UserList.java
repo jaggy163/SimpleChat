@@ -13,18 +13,21 @@ public class UserList {
     public UserList() {
     }
 
-    public void addUser(String login, Socket socket, ObjectInputStream ois, ObjectOutputStream oos) {
+    public String addUser(String login, Socket socket, ObjectInputStream ois, ObjectOutputStream oos) {
         if (!userList.containsKey(login)) {
             userList.put(login, new Client(socket, ois, oos));
         } else {
+            System.out.println("пытаюсь поменять");
             int i = 2;
             String str = login;
             while (userList.containsKey(login)) {
+                System.out.println("i = " + i);
                 login = str + "(" + i + ")";
                 i++;
             }
             userList.put(login, new Client(socket, ois, oos));
         }
+        return login;
     }
 
     public void deleteUser(String login) {

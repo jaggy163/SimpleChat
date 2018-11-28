@@ -16,6 +16,7 @@ public class InputThreadClient extends Thread {
     @Override
     public void run() {
         try {
+
             while (true) {
                 message = (Message) ois.readObject();
                 String time = new SimpleDateFormat("HH:mm").format(message.getTime());

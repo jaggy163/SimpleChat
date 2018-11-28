@@ -12,6 +12,7 @@ public class MainClient {
         Socket socket = null;
         ObjectInputStream ois;
         ObjectOutputStream oos;
+        String login;
 
         try {
             socket = new Socket(InetAddress.getLocalHost(), 8071);
@@ -19,7 +20,17 @@ public class MainClient {
             oos = new ObjectOutputStream(socket.getOutputStream());
             Scanner sc = new Scanner(System.in);
             System.out.println("Введите ваше имя и нажмите Enter:");
-            String login = sc.nextLine();
+            login = sc.nextLine();
+
+            try {
+                // Запрос свободного имени
+                Message first = new Message(login, "");
+                oos.writeObject(first);
+                // Ответ присваемого имени
+                login = ((Message)ois.readObject()).getMessage();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
 
             InputThreadClient in = new InputThreadClient(ois);
             OutputThreadClient out = new OutputThreadClient(login, oos);
@@ -30,7 +41,6 @@ public class MainClient {
         }catch (IOException e) {
             System.err.println("Нет соединения с сервером чата.");
             e.printStackTrace();
-
         }
     }
 }
